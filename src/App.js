@@ -15,6 +15,7 @@ function App() {
   const [tasks, setTasks] = useState([])
 
   const updateTask = (id, titulo, estado) => {
+    console.log('updateTask')
     setTasks((existingTasks => {
       return existingTasks.map((task) => {
         if (task.id === id) {
@@ -35,13 +36,11 @@ function App() {
       return [...tarefasExistentes, newTask]
     }))
   }
-  
-  const removePopFromList = () => {    
-    setTasks((tarefasExistentes => {
-      var lista = tarefasExistentes
-      lista.pop()
-      return [...lista]
-    }))
+
+  const removeTask = (id) => {
+    setTasks((tarefasExistentes) => {
+      return tarefasExistentes.filter((t) => t.id !== id)
+    })
   }
 
   return (
@@ -51,13 +50,13 @@ function App() {
       <div class="container">
         <div class="row">
           <div class="col">
-            <TaskList titulo='Pendente' addTaskP={addNewTask} tasks={tasks} removeTaskP={removePopFromList} onTaskUpdate={updateTask}/>
+            <TaskList titulo='Pendente' addTaskP={addNewTask} estadoTask="Pendente" tasks={tasks.filter((t) => t.estado === "Pendente")} onTaskUpdate={updateTask} removeTask={removeTask}/>
           </div>
           <div class="col">
-            <TaskList titulo='Andamento' addTaskP={addNewTask} tasks={tasks} removeTaskP={removePopFromList} onTaskUpdate={updateTask}/>
+            <TaskList titulo='Andamento' addTaskP={addNewTask} estadoTask="Andamento" tasks={tasks.filter((t) => t.estado === "Andamento")} onTaskUpdate={updateTask} removeTask={removeTask}/>
           </div>
           <div class="col">
-            <TaskList titulo='Completa' addTaskP={addNewTask} tasks={tasks} removeTaskP={removePopFromList} onTaskUpdate={updateTask}/>
+            <TaskList titulo='Completa' addTaskP={addNewTask} estadoTask="Completa" tasks={tasks.filter((t) => t.estado === "Completa")} onTaskUpdate={updateTask} removeTask={removeTask}/>
           </div>
         </div>
       </div>
